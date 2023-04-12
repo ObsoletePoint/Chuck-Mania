@@ -22,7 +22,7 @@ end
 
 function love.update(dt)
 
-    player:update(dt)
+    player:update(dt, boxes)
 
     for i, box in ipairs(boxes) do
 
