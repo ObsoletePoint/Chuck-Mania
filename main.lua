@@ -14,7 +14,7 @@ function love.load()
 
     for i = 1, maxBoxes do
 
-        table.insert(boxes, Box())
+        table.insert(boxes, Box(boxes, i))
 
     end
 
@@ -51,5 +51,14 @@ function addBox()
         table.insert(boxes, Box())
 
     end
+
+end
+
+function checkOverlap(box1, box2)
+
+    return box1.x < box2.x + box2.width and
+           box1.x + box1.width > box2.x and
+           box1.y < box2.y + box2.height and
+           box1.y + box1.height > box2.y
 
 end

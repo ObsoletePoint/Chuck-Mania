@@ -5,7 +5,7 @@ function Player:new()
     self.x = 25
     self.y = 25
 
-    self.speed = 100
+    self.speed = 250
 
     self.radius = 25
 
