@@ -83,8 +83,11 @@ function Player:pickUpBox(boxes)
             table.remove(boxes, i)
             
             break
+
         end
+
     end
+    
 end
 
 function Player:draw()

@@ -1,16 +1,20 @@
 local boxes = {}
 local maxBoxes = 10
 
+local enemies = {}
+local maxEnemies = 5
 
 function love.load()
   
     Object = require "library/classic"
     require "player"
     require "box"
+    require "enemy"
 
     math.randomseed(os.time())
 
     player = Player()
+    enemy = Enemy()
 
     -- Mouse Click setup
     love.mousepressed = function(x, y, button)
@@ -31,12 +35,20 @@ function love.load()
             player.holdingBox = nil
 
         end
-        
+
     end
 
+    -- Boxes
     for i = 1, maxBoxes do
 
         table.insert(boxes, Box(boxes, i))
+
+    end
+
+    -- Enemies
+    for i = 1, maxEnemies do
+
+        table.insert(enemies, Enemy())
 
     end
 
@@ -52,6 +64,12 @@ function love.update(dt)
 
     end
 
+    for i, enemy in ipairs(enemies) do
+
+        enemy:update(dt)
+
+    end
+
 end
 
 function love.draw()
@@ -62,6 +80,12 @@ function love.draw()
 
         box:draw()
 
+    end
+
+    for i, enemy in ipairs(enemies) do
+
+        enemy:draw()
+        
     end
 
 end
