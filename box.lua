@@ -5,6 +5,9 @@ function Box:new(boxes, index)
     self.width = 40
     self.height = 40
 
+    self.velocityX = 0
+    self.velocityY = 0
+
     repeat
 
         self.x = math.random(0, love.graphics.getWidth() - self.width)
@@ -15,6 +18,9 @@ function Box:new(boxes, index)
 end
 
 function Box:update(dt)
+
+    self.x = self.x + self.velocityX * dt
+    self.y = self.y + self.velocityY * dt
 
 end
 

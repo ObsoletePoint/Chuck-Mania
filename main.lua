@@ -12,6 +12,28 @@ function love.load()
 
     player = Player()
 
+    -- Mouse Click setup
+    love.mousepressed = function(x, y, button)
+
+        if button == 1 and player.holdingBox ~= nil then
+
+            local dx = x - player.x
+            local dy = y - player.y
+            local magnitude = math.sqrt(dx * dx + dy * dy)
+            local normalizedDx = dx / magnitude
+            local normalizedDy = dy / magnitude
+
+            player.holdingBox.velocityX = 500 * normalizedDx
+            player.holdingBox.velocityY = 500 * normalizedDy
+
+            table.insert(boxes, player.holdingBox)
+
+            player.holdingBox = nil
+
+        end
+        
+    end
+
     for i = 1, maxBoxes do
 
         table.insert(boxes, Box(boxes, i))

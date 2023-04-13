@@ -6,8 +6,9 @@ function Player:new()
     self.y = 25
 
     self.speed = 250
-
     self.radius = 25
+
+    self.holdingBox = nil
 
 end
 
@@ -17,23 +18,31 @@ function Player:update(dt, boxes)
     local oldY = self.y
 
     if love.keyboard.isDown("w") then
+
         self.y = self.y - self.speed * dt
+
     end
     
     if love.keyboard.isDown("s") then
+
         self.y = self.y + self.speed * dt
+
     end
     
     if love.keyboard.isDown("d") then
+
         self.x = self.x + self.speed * dt
+
     end
 
     if love.keyboard.isDown("a") then
+
         self.x = self.x - self.speed * dt
+
     end
 
-    -- Collision
-    for i, box in ipairs(boxes) do
+    -- Collision BUG NOT WORKING WITH THE PICKUP!!!
+   --[[for i, box in ipairs(boxes) do
 
         if circleRectangleCollision({x = self.x, y = self.y, radius = self.radius}, box) then
 
@@ -44,6 +53,33 @@ function Player:update(dt, boxes)
 
         end
         
+    end ]]
+
+    -- Check for collisions and handle box pickup
+    if love.keyboard.isDown("space") and self.holdingBox == nil then
+        
+        for i, box in ipairs(boxes) do
+
+            if circleRectangleCollision({x = self.x, y = self.y, radius = self.radius}, box) then
+                
+                self.holdingBox = box
+
+                table.remove(boxes, i)
+
+                break
+
+            end
+
+        end
+
+    end
+
+    -- Make the box follow the player when it's being held
+    if self.holdingBox ~= nil then
+
+        self.holdingBox.x = self.x - self.holdingBox.width / 2
+        self.holdingBox.y = self.y - self.holdingBox.height / 2
+
     end
 
 end
@@ -51,6 +87,12 @@ end
 function Player:draw()
 
     love.graphics.circle("line", self.x, self.y, self.radius)
+
+    if self.holdingBox ~= nil then
+
+        self.holdingBox:draw()
+
+    end
 
 end
 
