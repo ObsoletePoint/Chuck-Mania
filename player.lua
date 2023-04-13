@@ -41,34 +41,22 @@ function Player:update(dt, boxes)
 
     end
 
-    -- Collision BUG NOT WORKING WITH THE PICKUP!!!
-   --[[for i, box in ipairs(boxes) do
+    -- Check for collisions and handle box pickup
+    if love.keyboard.isDown("space") and self.holdingBox == nil then
+        
+        self:pickUpBox(boxes)
 
-        if circleRectangleCollision({x = self.x, y = self.y, radius = self.radius}, box) then
+    end
 
+    -- Collision
+    for i, box in ipairs(boxes) do
+
+        if self.holdingBox ~= box and circleRectangleCollision({x = self.x, y = self.y, radius = self.radius}, box) then
+            
             self.x = oldX
             self.y = oldY
 
             break
-
-        end
-        
-    end ]]
-
-    -- Check for collisions and handle box pickup
-    if love.keyboard.isDown("space") and self.holdingBox == nil then
-        
-        for i, box in ipairs(boxes) do
-
-            if circleRectangleCollision({x = self.x, y = self.y, radius = self.radius}, box) then
-                
-                self.holdingBox = box
-
-                table.remove(boxes, i)
-
-                break
-
-            end
 
         end
 
@@ -82,6 +70,21 @@ function Player:update(dt, boxes)
 
     end
 
+end
+
+function Player:pickUpBox(boxes)
+
+    for i, box in ipairs(boxes) do
+
+        if circleRectangleCollision({x = self.x, y = self.y, radius = self.radius}, box) then
+            
+            self.holdingBox = box
+
+            table.remove(boxes, i)
+            
+            break
+        end
+    end
 end
 
 function Player:draw()
