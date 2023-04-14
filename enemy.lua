@@ -1,9 +1,13 @@
+local collisionSound
+
 Enemy = Object:extend()
 
 function Enemy:new()
 
     self.speed = 250
     self.radius = 25
+
+    collisionSound = love.audio.newSource("88451__davidou__boing.wav", "static")
 
     -- Randomly choose the edge of the screen to spawn the enemy
     local edge = math.random(1, 4)
@@ -46,16 +50,28 @@ function Enemy:update(dt)
     self.y = self.y + math.sin(self.direction) * self.speed * dt
 
     -- Bounce off the screen edges
+    local hitWall = false
+
     if self.x < 0 or self.x > love.graphics.getWidth() then
 
         self.direction = math.pi - self.direction
+        hitWall = true
 
     end
 
     if self.y < 0 or self.y > love.graphics.getHeight() then
 
         self.direction = -self.direction
+        hitWall = true
 
+    end
+
+    -- Play collision sound when the enemy hits a wall
+    if hitWall then
+
+        collisionSound:stop()
+        collisionSound:play()
+        
     end
 
 end

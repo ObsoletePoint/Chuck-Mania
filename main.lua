@@ -6,6 +6,9 @@ local maxEnemies = 5
 
 local score = 0
 
+local backgroundMusic
+local boxCollisionSound
+
 function love.load()
   
     Object = require "library/classic"
@@ -17,6 +20,13 @@ function love.load()
 
     player = Player()
     enemy = Enemy()
+
+    backgroundMusic = love.audio.newSource("95487__timbre__mouse-organ2.wav", "stream")
+    backgroundMusic:setLooping(true)
+    backgroundMusic:setVolume(0.2)
+    backgroundMusic:play()
+
+    boxCollisionSound = love.audio.newSource("202230__deraj__pop-sound.wav", "static")
 
     -- Mouse Click setup
     love.mousepressed = function(x, y, button)
@@ -98,6 +108,9 @@ function love.update(dt)
                 local enemy = enemies[j]
 
                 if checkOverlap(box, enemy) then
+
+                    boxCollisionSound:stop()
+                    boxCollisionSound:play()
 
                     -- Remove the box and enemy from their respective tables
                     table.remove(boxes, i)
