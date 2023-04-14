@@ -2,8 +2,8 @@ Player = Object:extend()
 
 function Player:new()
 
-    self.x = 25
-    self.y = 25
+    self.x = love.graphics.getWidth() / 2
+    self.y = love.graphics.getHeight() / 2
 
     self.speed = 250
     self.radius = 25
@@ -38,6 +38,27 @@ function Player:update(dt, boxes)
     if love.keyboard.isDown("a") then
 
         self.x = self.x - self.speed * dt
+
+    end
+
+    -- Prevent the player from moving off the screen
+    if self.x - self.radius < 0 then
+
+        self.x = self.radius
+
+    elseif self.x + self.radius > love.graphics.getWidth() then
+
+        self.x = love.graphics.getWidth() - self.radius
+
+    end
+
+    if self.y - self.radius < 0 then
+
+        self.y = self.radius
+
+    elseif self.y + self.radius > love.graphics.getHeight() then
+        
+        self.y = love.graphics.getHeight() - self.radius
 
     end
 

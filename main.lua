@@ -83,7 +83,7 @@ function love.update(dt)
             break
 
         end
-        
+
     end
 
     -- Check for collisions between boxes and enemies
@@ -110,6 +110,19 @@ function love.update(dt)
                 end
 
             end
+
+        end
+
+    end
+
+    -- Check for off screen boxes
+    for i = #boxes, 1, -1 do
+
+        local box = boxes[i]
+
+        if box.isThrown and box.isOffScreen then
+
+            table.remove(boxes, i)
 
         end
 

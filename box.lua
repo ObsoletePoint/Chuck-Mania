@@ -24,6 +24,9 @@ function Box:update(dt)
     self.x = self.x + self.velocityX * dt
     self.y = self.y + self.velocityY * dt
 
+    -- Set a flag if the box goes off the screen
+    self.isOffScreen = self.x + self.width < 0 or self.x > love.graphics.getWidth() or self.y + self.height < 0 or self.y > love.graphics.getHeight()
+
 end
 
 function Box:draw()
