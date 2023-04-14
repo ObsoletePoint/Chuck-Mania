@@ -4,6 +4,8 @@ local maxBoxes = 10
 local enemies = {}
 local maxEnemies = 5
 
+local score = 0
+
 function love.load()
   
     Object = require "library/classic"
@@ -88,6 +90,8 @@ function love.update(dt)
                     table.remove(boxes, i)
                     table.remove(enemies, j)
 
+                    score = score + 1
+
                     break
 
                 end
@@ -95,7 +99,24 @@ function love.update(dt)
             end
 
         end
-        
+
+    end
+
+    -- Spawn new boxes if there are less than the maximum allowed
+    if #boxes < maxBoxes then
+
+        local newBox = Box(boxes, #boxes + 1)
+        newBox.isThrown = false
+
+        table.insert(boxes, newBox)
+
+    end
+
+    -- Spawn new enemies if there are less than the maximum allowed
+    if #enemies < maxEnemies then
+
+        table.insert(enemies, Enemy())
+
     end
 
 end
@@ -115,6 +136,8 @@ function love.draw()
         enemy:draw()
         
     end
+
+    love.graphics.printf("Score: " .. score, 0, 25, love.graphics.getWidth(), "center")
 
 end
 
