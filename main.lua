@@ -73,6 +73,19 @@ function love.update(dt)
 
     end
 
+    -- Check for collisions between the player and the enemies
+    for _, enemy in ipairs(enemies) do
+
+        if circleCircleCollision({x = player.x, y = player.y, radius = player.radius}, {x = enemy.x, y = enemy.y, radius = enemy.radius}) then
+            
+            resetGame()
+
+            break
+
+        end
+        
+    end
+
     -- Check for collisions between boxes and enemies
     for i = #boxes, 1, -1 do
 
@@ -165,6 +178,43 @@ function checkOverlap(a, b)
 
         -- a is a rectangle (box), b is a circle (enemy)
         return circleRectangleCollision(b, a)
+
+    end
+
+end
+
+function circleCircleCollision(circle1, circle2)
+
+    local dx = circle1.x - circle2.x
+    local dy = circle1.y - circle2.y
+    local distance = math.sqrt(dx * dx + dy * dy)
+
+    return distance <= circle1.radius + circle2.radius
+
+end
+
+function resetGame()
+
+    score = 0
+
+    -- Reset the player
+    player = Player()
+
+    -- Reset the boxes
+    boxes = {}
+
+    for i = 1, maxBoxes do
+
+        table.insert(boxes, Box(boxes, i))
+
+    end
+
+    -- Reset the enemies
+    enemies = {}
+
+    for i = 1, maxEnemies do
+
+        table.insert(enemies, Enemy())
 
     end
 
