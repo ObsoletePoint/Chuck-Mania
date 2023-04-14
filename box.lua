@@ -8,6 +8,8 @@ function Box:new(boxes, index)
     self.velocityX = 0
     self.velocityY = 0
 
+    self.isThrown = false
+
     repeat
 
         self.x = math.random(0, love.graphics.getWidth() - self.width)

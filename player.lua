@@ -87,7 +87,7 @@ function Player:pickUpBox(boxes)
         end
 
     end
-    
+
 end
 
 function Player:draw()
@@ -108,4 +108,5 @@ function circleRectangleCollision(circle, rect)
     local dy = circle.y - math.max(rect.y, math.min(circle.y, rect.y + rect.height))
     
     return (dx * dx + dy * dy) < (circle.radius * circle.radius)
+    
 end

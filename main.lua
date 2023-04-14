@@ -29,6 +29,7 @@ function love.load()
 
             player.holdingBox.velocityX = 500 * normalizedDx
             player.holdingBox.velocityY = 500 * normalizedDy
+            player.holdingBox.isThrown = true
 
             table.insert(boxes, player.holdingBox)
 
@@ -70,6 +71,33 @@ function love.update(dt)
 
     end
 
+    -- Check for collisions between boxes and enemies
+    for i = #boxes, 1, -1 do
+
+        local box = boxes[i]
+
+        if box.isThrown then
+
+            for j = #enemies, 1, -1 do
+
+                local enemy = enemies[j]
+
+                if checkOverlap(box, enemy) then
+
+                    -- Remove the box and enemy from their respective tables
+                    table.remove(boxes, i)
+                    table.remove(enemies, j)
+
+                    break
+
+                end
+
+            end
+
+        end
+        
+    end
+
 end
 
 function love.draw()
@@ -100,11 +128,21 @@ function addBox()
 
 end
 
-function checkOverlap(box1, box2)
+function checkOverlap(a, b)
 
-    return box1.x < box2.x + box2.width and
-           box1.x + box1.width > box2.x and
-           box1.y < box2.y + box2.height and
-           box1.y + box1.height > box2.y
+    if a.width and b.width then
+
+        -- Both are rectangles
+        return a.x < b.x + b.width and
+               a.x + a.width > b.x and
+               a.y < b.y + b.height and
+               a.y + a.height > b.y
+
+    elseif a.width and b.radius then
+
+        -- a is a rectangle (box), b is a circle (enemy)
+        return circleRectangleCollision(b, a)
+
+    end
 
 end
