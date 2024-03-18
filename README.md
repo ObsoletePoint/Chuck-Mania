@@ -1,6 +1,5 @@
 # Chuck-Mania
 
-Author: Jason Delorey
 
 Note: Music/sound effects are not by me.
 Boing: https://freesound.org/people/davidou/sounds/88451/
